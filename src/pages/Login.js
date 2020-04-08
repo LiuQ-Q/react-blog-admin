@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Card, Input, Button, Spin } from 'antd';
+import { Card, Input, Button, Spin, message } from 'antd';
 import { UserOutlined, KeyOutlined } from '@ant-design/icons';
 import '../static/style/login.css';
+import api from '../config/apiUrl';
 
-function Login() {
-  const [ userName, setUserName ] = useState('');
+function Login(props) {
+  const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
 
   const checkLogin = () => {
     setIsLoading(true);
-    setTimeout(() => {
+
+    if (!username) {
+      message.error('用户名不能为空!');
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500)
+      return false;
+    } else if (!password) {
+      message.error('密码不能为空!')
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500)
+      return false;
+    }
+
+    api.login(username, password).then((res) => {
       setIsLoading(false);
-    }, 1000)
+      console.log(res);
+      if (res.data === '登录成功') {
+        localStorage.setItem('openId',res.openId);
+        props.history.push('/index');
+      } else {
+        message.error('用户名密码错误');
+      }
+    });
+    
   };
 
   return (
@@ -21,11 +45,11 @@ function Login() {
       <Spin tip="Loading..." spinning={isLoading}>
         <Card title="博客登录" bordered={true} style={{ width: 400 }}>
           <Input 
-            id="userName"
+            id="username"
             size="large"
             placeholder="username"
             prefix={<UserOutlined />}
-            onChange={(e)=>{setUserName(e.target.value)}}
+            onChange={(e)=>{setUsername(e.target.value)}}
           />
           <br/><br/>
           <Input.Password
@@ -47,5 +71,7 @@ function Login() {
     </div>
   )
 }
+
+
 
 export default Login;

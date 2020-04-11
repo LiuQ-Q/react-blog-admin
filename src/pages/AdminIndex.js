@@ -11,16 +11,25 @@ import {
 import '../static/style/adminIndex.css';
 
 import AddArticle from './AddArticle';
+import ArticleList from './ArticleList';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function AdminIndex() {
+function AdminIndex(props) {
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
   };
+
+  const handleClickArticle = e => {
+    if (e.key === 'addArticle') {
+      props.history.push('/index/add');
+    } else if (e.key === 'articleList') {
+      props.history.push('/index/list');
+    }
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -43,9 +52,10 @@ function AdminIndex() {
                 <span>文章管理</span>
               </span>
             }
+            onClick={handleClickArticle}
           >
-            <Menu.Item key="3">添加文章</Menu.Item>
-            <Menu.Item key="4">文章列表</Menu.Item>
+            <Menu.Item key="addArticle">添加文章</Menu.Item>
+            <Menu.Item key="articleList">文章列表</Menu.Item>
           </SubMenu>
           <Menu.Item key="5">
             <FileOutlined />
@@ -63,6 +73,9 @@ function AdminIndex() {
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             <div>
               <Route exact path="/index/" component={AddArticle} />
+              <Route exact path="/index/add/" component={AddArticle} />
+              <Route exact path="/index/add/:id" component={AddArticle} />
+              <Route exact path="/index/list/" component={ArticleList} />
             </div>
           </div>
         </Content>

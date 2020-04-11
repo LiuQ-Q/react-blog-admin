@@ -11,25 +11,59 @@ const serverPath = {
         password
       },
       withCredentials: true
-    }).then(
-      (res) => res.data
-    )
-  }, 
-  // getArticleList: async () => {
-  //   return await axios.get( ipUrl + 'getArticleList/').then(
-  //     (res) => res.data
-  //   )
-  // }, 
-  // getArticleListByTypeId: async (typeId) => {
-  //   return await axios.get( ipUrl + 'getArticleListByTypeId/' + typeId).then(
-  //     (res) => res.data
-  //   )
-  // }, 
-  // getArticleById: async (articleId) => {
-  //   return await axios.get( ipUrl + 'getArticleById/' + articleId).then(
-  //     (res) => res.data.data[0]
-  //   )
-  // }, 
+    }).then((res) => res.data)
+  },
+
+  getTypeInfo: async () => {
+    return await axios({
+      method: 'get',
+      url: ipUrl + 'getTypeInfo/',
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  addArticle: async (article) => {
+    return await axios({
+      method: 'post',
+      url: ipUrl + 'addArticle/',
+      data: article,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  updateArticle: async (article) => {
+    return await axios({
+      method: 'post',
+      url: ipUrl + 'updateArticle/',
+      data: article,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  getArticleList: async () => {
+    return await axios({
+      method: 'get',
+      url: ipUrl + 'getArticleList/',
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  deletArticleById: async (articleId) => {
+    return await axios({
+      method: 'get',
+      url: ipUrl + 'deletArticleById/' + articleId,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  getArticleById: async (articleId) => {
+    return await axios({
+      method: 'get',
+      url: ipUrl + 'getArticleById/' + articleId,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
 };
 
 export default serverPath;

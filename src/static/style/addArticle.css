@@ -26,6 +26,10 @@
   font-size:24px;
 }
 
+.show-html img{
+  width: 100%;
+}
+
 .show-html pre{
   display: block;
   background-color: #f0f0f0;
@@ -72,6 +76,10 @@
 
 .introduce-html h3{
   font-size:24px;
+}
+
+.introduce-html img{
+  width: 100%;
 }
 
 .introduce-html pre{

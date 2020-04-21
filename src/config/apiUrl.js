@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const ipUrl = 'http://154.8.231.65:7001/admin/';
+const ipUrl = 'http://123.56.40.114:7001/admin/';
+// const ipUrl = 'http://localhost:7001/admin/';
 const serverPath = {
   login: async (username, password) => {
     return await axios({

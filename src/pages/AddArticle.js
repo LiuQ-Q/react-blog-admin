@@ -8,13 +8,13 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 function AddArticle(props) {
-
   const [articleId, setArticleId] = useState(0);
   const [articleTitle,setArticleTitle] = useState('');
   const [articleContent , setArticleContent] = useState('');
   const [contentHtml, setContentHtml] = useState('预览内容');
   const [articleIntroduce,setArticleIntroduce] = useState();
-  const [introduceHtml,setIntroduceHtml] = useState('预览内容');
+  const [articleImage,setArticleImage] = useState();
+  const [imageHtml,setimageHtml] = useState('图片预览');
   const [showDate,setShowDate] = useState();
   const [typeInfo ,setTypeInfo] = useState([]);
   const [selectedType,setSelectedType] = useState();
@@ -45,10 +45,10 @@ function AddArticle(props) {
     setContentHtml(html);
   }
 
-  const changeIntroduce = (e) => {
-    setArticleIntroduce(e.target.value);
-    let html = marked(e.target.value);
-    setIntroduceHtml(html)
+  const changeArticleImage = (e) => {
+    setArticleImage(e.target.value);
+    let html = marked('![图片alt]('+ e.target.value +')');
+    setimageHtml(html)
   }
 
   const getTypeInfo = () => {
@@ -79,6 +79,9 @@ function AddArticle(props) {
     } else if (!articleIntroduce) {
       message.error('文章简介不能为空!');
       return false;
+    } else if (!articleImage) {
+      message.error('简介图片不能为空!');
+      return false;
     } else if (!showDate) {
       message.error('发布日期不能为空!');
       return false;
@@ -89,6 +92,7 @@ function AddArticle(props) {
       title: articleTitle,
       content: articleContent,
       introduce: articleIntroduce,
+      image: articleImage,
       add_time: (new Date(showDate.replace('-', '/')).getTime())/1000,
     }
 
@@ -123,7 +127,7 @@ function AddArticle(props) {
       setArticleContent(articleInfo.articleContent);
       setContentHtml(marked(articleInfo.articleContent));
       setArticleIntroduce(articleInfo.introduce);
-      setIntroduceHtml(marked(articleInfo.introduce));
+      setArticleImage(articleInfo.image);
       setShowDate(articleInfo.addTime);
       setSelectedType(articleInfo.typeId);
     });
@@ -187,16 +191,24 @@ function AddArticle(props) {
               >保存文章</Button>
             </Col>
             <Col span={24}>
+              <Input
+                value={articleImage}
+                placeholder="简介图片地址"
+                size="large"
+                onChange={changeArticleImage}
+              />
+              <div
+                className="introduce-html"
+                dangerouslySetInnerHTML={{ __html: imageHtml }}
+              ></div>
+            </Col>
+            <Col span={24}>
               <TextArea
                 rows={4}
                 placeholder="文章简介"
                 value={articleIntroduce}
-                onChange={changeIntroduce}
+                onChange={e=>{setArticleIntroduce(e.target.value)}}
               ></TextArea>
-              <div 
-                className="introduce-html"
-                dangerouslySetInnerHTML={{ __html: introduceHtml }}
-              ></div>
             </Col>
             <Col span={12}>
               <div className="date=select">

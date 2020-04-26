@@ -3,17 +3,15 @@ import { Route } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import {
   DesktopOutlined,
-  PieChartOutlined,
   FileOutlined,
-  TeamOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import '../static/style/adminIndex.css';
 
 import AddArticle from './AddArticle';
 import ArticleList from './ArticleList';
+import TypeManage from './TypeManage';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function AdminIndex(props) {
@@ -31,24 +29,24 @@ function AdminIndex(props) {
     }
   }
 
+  const clickCategory = () => {
+    props.history.push('/index/category');
+  }
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1">
-            <PieChartOutlined />
-            <span>工作台</span>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <DesktopOutlined />
-            <span>添加文章</span>
+          <DesktopOutlined />
+            <span onClick={clickCategory}>类别管理</span>
           </Menu.Item>
           <SubMenu
             key="sub1"
             title={
               <span>
-                <UserOutlined />
+                <FileOutlined />
                 <span>文章管理</span>
               </span>
             }
@@ -57,10 +55,6 @@ function AdminIndex(props) {
             <Menu.Item key="addArticle">添加文章</Menu.Item>
             <Menu.Item key="articleList">文章列表</Menu.Item>
           </SubMenu>
-          <Menu.Item key="5">
-            <FileOutlined />
-            <span>管理</span>
-          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -76,6 +70,7 @@ function AdminIndex(props) {
               <Route exact path="/index/add/" component={AddArticle} />
               <Route exact path="/index/add/:id" component={AddArticle} />
               <Route exact path="/index/list/" component={ArticleList} />
+              <Route exact path="/index/category/" component={TypeManage} />
             </div>
           </div>
         </Content>

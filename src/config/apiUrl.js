@@ -23,6 +23,32 @@ const serverPath = {
     }).then((res) => res.data)
   },
 
+  addType: async (typeInfo) => {
+    return await axios({
+      method: 'post',
+      url: ipUrl + 'addType/',
+      data: typeInfo,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  updateType: async (typeInfo) => {
+    return await axios({
+      method: 'post',
+      url: ipUrl + 'updateType/',
+      data: typeInfo,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
+  deletTypeById: async (typeId) => {
+    return await axios({
+      method: 'get',
+      url: ipUrl + 'deletTypeById/' + typeId,
+      withCredentials: true
+    }).then((res) => res.data)
+  },
+
   addArticle: async (article) => {
     return await axios({
       method: 'post',

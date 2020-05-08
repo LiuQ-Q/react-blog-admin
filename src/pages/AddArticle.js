@@ -18,6 +18,7 @@ function AddArticle(props) {
   const [showDate,setShowDate] = useState();
   const [typeInfo ,setTypeInfo] = useState([]);
   const [selectedType,setSelectedType] = useState();
+  const [viewCount, setViewCount] = useState(0);
 
   useEffect(() => {
     getTypeInfo();
@@ -122,7 +123,7 @@ function AddArticle(props) {
     api.getArticleById(articleId)
     .then((res) => {
       const articleInfo = res.data[0];
-      
+
       setArticleTitle(articleInfo.title);
       setArticleContent(articleInfo.articleContent);
       setContentHtml(marked(articleInfo.articleContent));
@@ -130,6 +131,22 @@ function AddArticle(props) {
       setArticleImage(articleInfo.image);
       setShowDate(articleInfo.addTime);
       setSelectedType(articleInfo.typeId);
+      setViewCount(articleInfo.viewCount);
+    });
+  }
+
+  const changeViewCount = () => {
+    let articleInfo = {
+      id: articleId,
+      view_count: viewCount
+    }
+
+    api.updateArticle(articleInfo).then((res) => {
+      if (res.isSuccess) {
+        message.success('修改成功');
+      } else {
+        message.error('修改失败');
+      }
     });
   }
 
@@ -210,7 +227,7 @@ function AddArticle(props) {
                 onChange={e=>{setArticleIntroduce(e.target.value)}}
               ></TextArea>
             </Col>
-            <Col span={12}>
+            <Col span={24}>
               <div className="date=select">
                 <DatePicker
                   placeholder="发布日期"
@@ -218,6 +235,21 @@ function AddArticle(props) {
                   onChange={(data, dateString)=>{setShowDate(dateString)}}
                 />
               </div>
+            </Col>
+            <Col span={12}>
+              <Input
+                value={viewCount}
+                placeholder="浏览量"
+                size="large"
+                onChange={e=>{setViewCount(e.target.value)}}
+              />
+            </Col>
+            <Col span={12}>
+              <Button
+                type="primary"
+                size="large"
+                onClick={changeViewCount}
+              >修改浏览量</Button>
             </Col>
           </Row>
         </Col>
